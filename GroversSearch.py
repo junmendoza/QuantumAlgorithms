@@ -37,17 +37,27 @@ amplitude = 1 / d
 # Iterations
 steps = int(d)
 
-# Quantum state init
-n = 0
-qstate = np.full((1, N), amplitude)
 
+# Quantum states
+
+# qstate1: Init input qubits
+qstate1 = [1, 0]
+for i in range(n - 1):
+    qstate1 = np.kron(qstate1, [1, 0])
+print(qstate1)
+
+# qstate2: Apply hadamard to all input qubits
+qstate = np.matmul(qstate1, HTn)
+print(qstate)
+
+# Begin iteration
 for i in range(steps):
 
     # Phase Inversion of the amplitudes
     # Iterate through all states and call the oracle function
     for x in range(N):
         # (-1)**f(x)|x>
-        qstate[0][x] = qstate[0][x] * (-1)**f(x)
+        qstate[x] = qstate[x] * (-1)**f(x)
     qstate = qstate.round(4)
     print(qstate)
 
