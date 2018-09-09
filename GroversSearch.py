@@ -1,11 +1,15 @@
 
+#
 # Grovers search algorithm
-# The implementation attempts to closely match the mathematical expressions for every quantum state
+#   + Attempts to match the mathematical expressions for every quantum state
+#   + Support n input qubits
+#   + The output qubit is not modelled as its effect is handled in the phase inversion
+#
 import numpy as np
 
 # Oracle function
 def f(x) :
-    if x == 3 :
+    if x == 2 :
         return 1
     return 0
 
@@ -18,6 +22,7 @@ print(H)
 
 # Input qubits
 n = 3
+
 # Possible combinations
 N = np.power(2, n)
 
@@ -37,8 +42,8 @@ amplitude = 1 / d
 # Iterations
 steps = int(d)
 
-
 # Quantum states
+s = 1
 
 # qstate1: Init input qubits
 qstate1 = [1, 0]
