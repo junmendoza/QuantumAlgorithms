@@ -1,2 +1,2 @@
-# QuantumAlgorithms
-Implementation of Quantum Algorithms to help understand their behaviour
+# QuantumPlayground
+Implementation of Quantum Algorithms to help understand their properties, behaviour and intermingling with classical algorithms
