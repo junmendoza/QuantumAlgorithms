@@ -13,6 +13,9 @@ def f(x) :
         return 1
     return 0
 
+# Compute precision in decimal places
+precision = 4
+
 # Input qubits
 n = 3
 
@@ -23,12 +26,14 @@ N = np.power(2, n)
 HTn = H
 for i in range(n - 1) :
     HTn = np.kron(HTn, H)
-HTn = HTn.round(4)
-print(HTn)
+HTn = HTn.round(precision)
+print("H tensor {0} = \n{1}".format(n, HTn))
 
 # Diffusion operator
 DIFF = np.full((N, N), 2/N) - np.identity(N, N)
+print("Diffusion operator = \n{0}".format(HTn))
 
+# Initial amplitude of all states
 d = np.sqrt(N)
 amplitude = 1 / d
 
@@ -58,13 +63,15 @@ for i in range(steps):
     for x in range(N):
         # (-1)**f(x)|x>
         qstate[x] = qstate[x] * (-1)**f(x)
-    qstate = qstate.round(4)
+    qstate = qstate.round(precision)
     print("|qs{0}> = {1}".format(qs, qstate))
     qs+=1
-
 
     # Diffusion transform
     qstate = np.matmul(qstate, DIFF)
-    qstate = qstate.round(4)
+    qstate = qstate.round(precision)
     print("|qs{0}> = {1}".format(qs, qstate))
     qs+=1
+
+amplitude_sum = np.matmul(qstate, qstate)
+print("Amplitude Sum = <qs{0}|qs{1}> = {2}".format(qs, qs, amplitude_sum))
