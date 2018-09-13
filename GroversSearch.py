@@ -1,24 +1,17 @@
-
 #
 # Grovers search algorithm
-#   + Attempts to match the mathematical expressions for every quantum state
+#   + Model the quantum states of Grovers search algorithm
 #   + Support n input qubits
 #   + The output qubit is not modelled as its effect is handled in the phase inversion
 #
 import numpy as np
+from Definitions import H
 
 # Oracle function
 def f(x) :
     if x == 2 :
         return 1
     return 0
-
-# Constants
-hadamard_amplitude = 1 / np.sqrt(2)
-
-# Hadamard matrix
-H = hadamard_amplitude * np.matrix('1  1 ; 1 -1')
-print(H)
 
 # Input qubits
 n = 3
@@ -42,31 +35,36 @@ amplitude = 1 / d
 # Iterations
 steps = int(d)
 
-# Quantum states
-s = 1
+# Quantum state index
+qs = 0
 
-# qstate1: Init input qubits
-qstate1 = [1, 0]
+# qstate1: Init input qubits |0...0>
+qubit = [1, 0] # 1 qubit at state |0>
+qstate1 = qubit
 for i in range(n - 1):
     qstate1 = np.kron(qstate1, [1, 0])
-print(qstate1)
+print("|qs{0}> = {1}".format(qs, qstate1))
+qs+=1
 
 # qstate2: Apply hadamard to all input qubits
 qstate = np.matmul(qstate1, HTn)
-print(qstate)
+print("|qs{0}> = {1}".format(qs, qstate))
+qs+=1
 
 # Begin iteration
 for i in range(steps):
-
     # Phase Inversion of the amplitudes
     # Iterate through all states and call the oracle function
     for x in range(N):
         # (-1)**f(x)|x>
         qstate[x] = qstate[x] * (-1)**f(x)
     qstate = qstate.round(4)
-    print(qstate)
+    print("|qs{0}> = {1}".format(qs, qstate))
+    qs+=1
+
 
     # Diffusion transform
     qstate = np.matmul(qstate, DIFF)
     qstate = qstate.round(4)
-    print(qstate)
+    print("|qs{0}> = {1}".format(qs, qstate))
+    qs+=1
