@@ -1,21 +1,18 @@
 #
-# Deutsch Jozsa Algorithm
+# Deutsch's Algorithm
 #
-# The Deutsch Jozsa algorithm is a generalisation of the Deutsch’s algorithm.
-# The goal is still to determine if a function is balanced or constant.
-# The difference is that there can be more than 1 input to the oracle function.
+# The goal is  to determine if a function is balanced or constant.
 # Note that the inputs to the function is guaranteed to be constant or balanced.
 #
-# + Model the quantum states of the Detusch Jozsa algorithm
-# + Support n input qubits
-# + The output qubit is not modelled as its effect is handled in the phase inversion
+# + Model the quantum states of the Detusch  algorithm
+# + 1 input qubit and 1 output qubit
 #
 
 import numpy as np
 from Definitions import H
 
 # Oracle function
-def f(x, max) :
+def f(x) :
     type = 2
     if type == 0:
         # Constant 0
@@ -23,18 +20,16 @@ def f(x, max) :
     elif type == 1:
         # Constant 1
         return 1
-
-    # Balanced
-    n = max / 2
-    if x < n:
-        return 0
-    return 1
+    else:
+        # Balanced
+        # Return the not of the argument
+        return ~x
 
 # Compute precision in decimal places
 precision = 4
 
 # Input qubits
-n = 2
+n = 1
 
 # Possible combinations
 N = np.power(2, n)
@@ -57,9 +52,6 @@ qs = 0
 # qstate1: Init input qubits |0...0>
 qubit = [1, 0] # 1 qubit at state |0>
 qstate = qubit
-for i in range(n - 1):
-    qstate = np.kron(qstate, [1, 0])
-qstate = qstate.round(precision)
 print("|qs{0}> = {1}".format(qs, qstate))
 qs+=1
 
@@ -73,7 +65,7 @@ qs+=1
 # Apply the oracle function to x superposition of states
 for x in range(N):
     # (-1)**f(x)|x>
-    qstate[x] = qstate[x] * (-1)**f(x, N)
+    qstate[x] = qstate[x] * (-1)**f(x)
 qstate = qstate.round(precision)
 print("|qs{0}> = {1}".format(qs, qstate))
 qs+=1

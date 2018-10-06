@@ -27,6 +27,7 @@ DIFF = np.full((N, N), 2/N) - np.identity(N, N)
 print("Diffusion operator = \n{0}".format(HTn))
 
 # H Tensor n product
+# The numpy kronocker product is the tensor product
 HTn = H
 for i in range(n - 1) :
     HTn = np.kron(HTn, H)
