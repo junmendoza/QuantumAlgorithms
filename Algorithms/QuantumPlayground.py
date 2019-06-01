@@ -22,15 +22,16 @@ def main():
         '--algorithm', 
         dest='algorithm', 
         default='0',
-        choices=['0', '1', '2', '3', '4'],
-        help='Specify algorithm to run: '
-        '0=run all, '
-        '1=Deutschs Algorithm, '
-        '2=Deutch Jozsa, '
-        '3=Grovers Search, '
-        '4=Deutschs Algorithm Qiskit, '
-        '5=Deutch Jozsa Qiskit, '
-        '6=Grovers Search Qiskit, '
+        choices=['0', '1', '2', '3', '4', '5', '6'],
+        help=
+            'Specify algorithm to run: '
+            '0=run all, '
+            '1=Deutschs Algorithm, '
+            '2=Deutch Jozsa, '
+            '3=Grovers Search, '
+            '4=Deutschs Algorithm Qiskit, '
+            '5=Deutch Jozsa Qiskit, '
+            '6=Grovers Search Qiskit, '
         )
     args = parser.parse_args()
     
