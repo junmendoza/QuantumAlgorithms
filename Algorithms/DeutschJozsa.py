@@ -30,7 +30,9 @@ def f(x, max) :
         return 0
     return 1
 
-def deutschJozsaExample() :
+def deutschJozsa() :
+    print("Running: deutschJozsa")
+    
     # Compute precision in decimal places
     precision = 4
     

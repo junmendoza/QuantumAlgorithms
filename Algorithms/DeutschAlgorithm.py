@@ -25,7 +25,9 @@ def f(x) :
         # Return the not of the argument
         return ~x
 
-def deutschExample() :
+def deutschAlgorithm() :
+    print("Running: deutschAlgorithm")
+    
     # Compute precision in decimal places
     precision = 4
     

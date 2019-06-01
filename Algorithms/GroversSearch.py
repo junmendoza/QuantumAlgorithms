@@ -1,5 +1,5 @@
 #
-# Grovers search algorithm
+# Grovers Search Algorithm
 #   + Model the quantum states of Grovers search algorithm
 #   + Support n input qubits
 #   + The output qubit is not modelled as its effect is handled in the phase inversion
@@ -13,7 +13,8 @@ def f(x) :
         return 1
     return 0
 
-def groversSearchExample() :
+def groversSearch() :
+    print("Running: groversSearch")
     
     # Compute precision in decimal places
     precision = 4

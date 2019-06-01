@@ -1,12 +1,10 @@
-#
-# Deutsch Jozsa Algorithm
-# Implemented in Qiskit
-#
+
+
 # Setting up the IBM Qiskit account
 from qiskit import IBMQ
 
-def setupQiskit() :
-    mytoken = 'token here'
+def setupQiskit(token) :
+    mytoken = token
     qiskit_url = 'https://api.quantum-computing.ibm.com/api/Hubs/ibm-q/Groups/open/Projects/main'
     
     # If you want to store the account to disk
