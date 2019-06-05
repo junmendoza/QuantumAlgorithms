@@ -100,14 +100,14 @@ def deutschJozsaQiskit() :
     image = qcircuit.draw(output='mpl')
     image.savefig(image_filename)
 
-
     # Start simulation
-    backend = BasicAer.get_backend('qasm_simulator')
+    simulator = 'qasm_simulator'
+    print("Start BasicAer simulator: ", simulator)
+    backend = BasicAer.get_backend(simulator)
     shots = 100
     job = execute(qcircuit, backend=backend, shots=shots)
     results = job.result()
     results_count = results.get_counts()
-
 
     # Generate simulation results
     histogram_filename = 'DeutschJozsaHistogram.png';
