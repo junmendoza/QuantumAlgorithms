@@ -3,9 +3,14 @@
 # Implemented in Qiskit
 #
 
-# useful additional packages
-import numpy as np
+# Qiskit core packages
+from qiskit import BasicAer, IBMQ
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit import execute, compile
+from qiskit.tools.monitor import job_monitor
+
+# Visualisation tools
+from qiskit.tools.visualization import plot_histogram
 
 def deutschJozsaQiskit() :
     print("Running: deutschJozsaQiskit")
@@ -19,10 +24,10 @@ def deutschJozsaQiskit() :
     # Oracle qubits
     m = 1
     nqubits = n + m + 1
-    
+
     # Oracle qubit index
     q = n
-    
+
     # Output qubit index
     k = nqubits - 1
 
@@ -38,7 +43,7 @@ def deutschJozsaQiskit() :
     # Set the last qubit to be the |1>
     # This creates an initial state of |001>
     qcircuit.x(qregs[k])
-    
+
     # Setup oracle function to always return 1
     # Constant 1 oracle function
     qcircuit.x(qregs[q])
@@ -60,7 +65,7 @@ def deutschJozsaQiskit() :
 
     # Start of oracle function
     qcircuit.barrier()
-    
+
     # Apply constant 1 oracle function
     qcircuit.cx(qregs[q], qregs[k])
 
@@ -80,10 +85,34 @@ def deutschJozsaQiskit() :
     # Final measurement
     #==================
     print("Final measurement")
-    
+
     # Start of measurement
     qcircuit.barrier()
     for i in range(n):
         qcircuit.measure(qregs[i], regs[i])
 
-    print(regs)
+    # Draw the circuit
+    print("Drawing circuit")
+    print(qcircuit)
+
+    image_filename = 'DeutschJozsaCircuitMPL.png';
+    print("Saving circuit: ", image_filename)
+    image = qcircuit.draw(output='mpl')
+    image.savefig(image_filename)
+
+
+    # Start simulation
+    backend = BasicAer.get_backend('qasm_simulator')
+    shots = 100
+    job = execute(qcircuit, backend=backend, shots=shots)
+    results = job.result()
+    results_count = results.get_counts()
+
+
+    # Generate simulation results
+    histogram_filename = 'DeutschJozsaHistogram.png';
+    print("Plotting histogram: ", histogram_filename)
+    histogram = plot_histogram(results_count)
+    histogram.savefig(histogram_filename)
+
+    print("Done")
