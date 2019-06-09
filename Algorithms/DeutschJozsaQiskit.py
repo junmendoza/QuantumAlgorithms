@@ -50,6 +50,7 @@ def deutschJozsaQiskit() :
 
     # psi1: Place all qubits in superposition
     #========================================
+    qcircuit.barrier()
     print("psi1: Apply hadamard gates")
 
     # Apply hadamard to in an out qubits
@@ -61,19 +62,17 @@ def deutschJozsaQiskit() :
 
     # psi2: Apply the oracle function to the superposition of input qubits
     #=====================================================================
+    qcircuit.barrier()
     print("psi2: Apply oracle function")
 
     # Start of oracle function
-    qcircuit.barrier()
 
     # Apply constant 1 oracle function
     qcircuit.cx(qregs[q], qregs[k])
 
-    # End of oracle function
-    qcircuit.barrier()
-
     # psi3: Prepare for measurement
     #==============================
+    qcircuit.barrier()
     print("psi3: Apply hadamard gates")
 
     # Apply hadamard to in qubits
@@ -84,10 +83,9 @@ def deutschJozsaQiskit() :
 
     # Final measurement
     #==================
+    qcircuit.barrier()
     print("Final measurement")
 
-    # Start of measurement
-    qcircuit.barrier()
     for i in range(n):
         qcircuit.measure(qregs[i], regs[i])
 
