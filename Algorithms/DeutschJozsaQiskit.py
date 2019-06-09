@@ -12,7 +12,7 @@ from qiskit.tools.monitor import job_monitor
 # Visualisation tools
 from qiskit.tools.visualization import plot_histogram
 
-def deutschJozsaQiskit() :
+def deutschJozsaQiskit(oracle_type, input_qubits) :
     print("Running: deutschJozsaQiskit")
 
     # psi0: Init input qubits |001>
@@ -20,17 +20,17 @@ def deutschJozsaQiskit() :
     print("psi0: Setting up input qubits")
 
     # Num input qubits
-    n = 2
-    
+    n = input_qubits
+
     # Num oracle control bits
     m = 1
-    
+
     # Oracle control qubit index
     oracle_control_qubit = n + m - 1
-    
+
     # Total qubits in circuit
     nqubits = n + m + 1
-    
+
     # Output qubit index
     output_qubit = nqubits - 1
 
@@ -64,10 +64,7 @@ def deutschJozsaQiskit() :
     print("psi2: Apply oracle function")
 
     # Start of oracle function
-    CONSTANT = 0
-    BALANCED = 1
-    oracle = BALANCED
-    if oracle == CONSTANT:
+    if oracle_type == 'constant':
         constant_type = 1
         print("Running oracle function: Constant ", constant_type)
         if constant_type == 1:
@@ -81,7 +78,7 @@ def deutschJozsaQiskit() :
         for i in range(n):
             qcircuit.barrier()
             qcircuit.cx(qregs[i], qregs[oracle_control_qubit])
-        
+
 
     # psi3: Prepare for measurement
     #==============================

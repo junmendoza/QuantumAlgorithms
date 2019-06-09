@@ -8,54 +8,60 @@ from GroversSearch          import groversSearch
 from DeutschAlgorithmQiskit import deutschAlgorithmQiskit
 from DeutschJozsaQiskit     import deutschJozsaQiskit
 from GroversSearchQiskit    import groversSearchQiskit
-    
+
 def main():
-        
+
     parser = argparse.ArgumentParser(description='Run quantum algorithms')
     parser.add_argument(
-        '--token', 
-        dest='token', 
+        '--token',
+        dest='token',
         default='token not set',
         help='Specify token from IBM account'
         )
     parser.add_argument(
-        '--algorithm', 
-        dest='algorithm', 
-        default='0',
-        choices=['0', '1', '2', '3', '4', '5', '6'],
-        help=
-            'Specify algorithm to run: '
-            '0=run all, '
-            '1=Deutschs Algorithm, '
-            '2=Deutch Jozsa, '
-            '3=Grovers Search, '
-            '4=Deutschs Algorithm Qiskit, '
-            '5=Deutch Jozsa Qiskit, '
-            '6=Grovers Search Qiskit, '
+        '--algorithm',
+        dest='algorithm',
+        default='all',
+        choices=['all', 'deutsch', 'deutsch-jozsa', 'grovers', 'deutsch-jozsa-qiskit', 'grovers-qiskit'],
+        help='Specify algorithm to run'
+        )
+    parser.add_argument(
+        '--dj-oracle-type',
+        dest='dj_oracle_type',
+        default='constant',
+        choices=['constant', 'balanced'],
+        help='Specify deutsch-jozsa oracle type'
+        )
+    parser.add_argument(
+        '--dj-input-qubits',
+        dest='dj_input_qubits',
+        default=1,
+        type=int,
+        help='Specify deutsch-jozsa number of input qubits'
         )
     args = parser.parse_args()
-    
+
     token = str(args.token)
-    algorithm = int(args.algorithm)
-    
+    algorithm = args.algorithm
+
     setupQiskit(token)
-    
-    if algorithm == 0 or algorithm == 1 :
+
+    if algorithm == 'all' or algorithm == 'deutsch' :
         deutschAlgorithm()
-        
-    if algorithm == 0 or algorithm == 2 :
+
+    if algorithm == 'all' or algorithm == 'deutsch-jozsa' :
         deutschJozsa()
-        
-    if algorithm == 0 or algorithm == 3 :
+
+    if algorithm == 'all' or algorithm == 'grovers' :
         groversSearch()
-        
-    if algorithm == 0 or algorithm == 4 :
-        deutschAlgorithmQiskit()
-        
-    if algorithm == 0 or algorithm == 5 :
-        deutschJozsaQiskit()
-        
-    if algorithm == 0 or algorithm == 6 :
+
+    if algorithm == 'all' or algorithm == 'deutsch-jozsa-qiskit' :
+        deutschJozsaQiskit(
+            args.dj_oracle_type,
+            args.dj_input_qubits
+            )
+
+    if algorithm == 'all' or algorithm == 'grovers-qiskit' :
         groversSearchQiskit()
 
 if __name__ == "__main__" :
