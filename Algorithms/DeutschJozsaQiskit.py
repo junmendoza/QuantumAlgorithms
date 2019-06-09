@@ -21,15 +21,18 @@ def deutschJozsaQiskit() :
 
     # Num input qubits
     n = 2
-    # Oracle qubits
+    
+    # Num oracle control bits
     m = 1
+    
+    # Oracle control qubit index
+    oracle_control_qubit = n + m - 1
+    
+    # Total qubits in circuit
     nqubits = n + m + 1
-
-    # Oracle qubit index
-    q = n
-
+    
     # Output qubit index
-    k = nqubits - 1
+    output_qubit = nqubits - 1
 
     # Create the input + oracle qubits + 1 output qubit registers
     qregs = QuantumRegister(nqubits)
@@ -42,33 +45,43 @@ def deutschJozsaQiskit() :
 
     # Set the last qubit to be the |1>
     # This creates an initial state of |001>
-    qcircuit.x(qregs[k])
-
-    # Setup oracle function to always return 1
-    # Constant 1 oracle function
-    qcircuit.x(qregs[q])
+    qcircuit.x(qregs[output_qubit])
 
     # psi1: Place all qubits in superposition
     #========================================
     qcircuit.barrier()
     print("psi1: Apply hadamard gates")
 
-    # Apply hadamard to in an out qubits
+    # Apply hadamard to input and output qubits
     # This creates the state |+>|+>|->
     for i in range(nqubits):
-        if i != q :
+        if i != oracle_control_qubit :
             qcircuit.h(qregs[i])
 
 
     # psi2: Apply the oracle function to the superposition of input qubits
     #=====================================================================
-    qcircuit.barrier()
     print("psi2: Apply oracle function")
 
     # Start of oracle function
-
-    # Apply constant 1 oracle function
-    qcircuit.cx(qregs[q], qregs[k])
+    CONSTANT = 0
+    BALANCED = 1
+    oracle = BALANCED
+    if oracle == CONSTANT:
+        constant_type = 1
+        print("Running oracle function: Constant ", constant_type)
+        if constant_type == 1:
+            # Setup oracle function to always return 1
+            # Constant 1 oracle function
+            qcircuit.x(qregs[oracle_control_qubit])
+        qcircuit.barrier()
+        qcircuit.cx(qregs[oracle_control_qubit], qregs[output_qubit])
+    else: # oracle == BALANCED:
+        print("Running oracle function: Balanced 1,-1,-1, 1")
+        for i in range(n):
+            qcircuit.barrier()
+            qcircuit.cx(qregs[i], qregs[oracle_control_qubit])
+        
 
     # psi3: Prepare for measurement
     #==============================
@@ -78,7 +91,7 @@ def deutschJozsaQiskit() :
     # Apply hadamard to in qubits
     # Apply hadamard to out qubit
     for i in range(nqubits):
-        if i != q :
+        if i != oracle_control_qubit :
             qcircuit.h(qregs[i])
 
     # Final measurement
