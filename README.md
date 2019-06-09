@@ -19,6 +19,9 @@ Where:
   Oracle function = balanced
   Input qubits = 2
 
-
+Output
+The qiskit version of the algorithms generate image file outputs.
+ * Generates an image file of the quantum circuit
+ * Generates an image file of the measurement results of the quantum circuit as a histogram
 
 
