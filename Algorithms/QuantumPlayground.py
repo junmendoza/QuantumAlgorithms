@@ -5,7 +5,6 @@ from QiskitUtils            import setupQiskit
 from DeutschAlgorithm       import deutschAlgorithm
 from DeutschJozsa           import deutschJozsa
 from GroversSearch          import groversSearch
-from DeutschAlgorithmQiskit import deutschAlgorithmQiskit
 from DeutschJozsaQiskit     import deutschJozsaQiskit
 from GroversSearchQiskit    import groversSearchQiskit
 
