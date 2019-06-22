@@ -3,7 +3,7 @@
 # Implemented in Qiskit
 #
 
-def groversSearchQiskit() :
+def groversSearchQiskit(oracle_type, input_qubits) :
     print("Running: groversSearchQiskit")
     
     # psi0: Init input qubits |001>

@@ -24,6 +24,8 @@ def main():
         choices=['all', 'deutsch', 'deutsch-jozsa', 'grovers', 'deutsch-jozsa-qiskit', 'grovers-qiskit'],
         help='Specify algorithm to run'
         )
+    
+    # Deutch Jozsa args
     parser.add_argument(
         '--dj-oracle-type',
         dest='dj_oracle_type',
@@ -37,6 +39,22 @@ def main():
         default=1,
         type=int,
         help='Specify deutsch-jozsa number of input qubits'
+        )
+    
+    # Grovers Search args
+    parser.add_argument(
+        '--grovers-oracle-type',
+        dest='grovers_oracle_type',
+        default='default',
+        choices=['default'],
+        help='Specify grovers search oracle type'
+        )
+    parser.add_argument(
+        '--grovers-input-qubits',
+        dest='grovers_input_qubits',
+        default=1,
+        type=int,
+        help='Specify grovers search input qubits'
         )
     args = parser.parse_args()
 
@@ -61,7 +79,10 @@ def main():
             )
 
     if algorithm == 'all' or algorithm == 'grovers-qiskit' :
-        groversSearchQiskit()
+        groversSearchQiskit(
+            args.grovers_oracle_type,
+            args.grovers_input_qubits
+            )
 
 if __name__ == "__main__" :
     main();
