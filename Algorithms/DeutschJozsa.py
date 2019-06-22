@@ -15,29 +15,30 @@ import numpy as np
 from Definitions import H
 
 # Oracle function
-def f(x, max) :
-    type = 2
-    if type == 0:
-        # Constant 0
-        return 0
-    elif type == 1:
-        # Constant 1
+def f(x, max, type) :
+    if type == 'constant' :
+        constant_type = 0
+        if constant_type == 0 :
+            # Constant 0
+            return 0
+        elif constant_type == 1:
+            # Constant 1
+            return 1
+    else :
+        # Balanced
+        n = max / 2
+        if x < n:
+            return 0
         return 1
 
-    # Balanced
-    n = max / 2
-    if x < n:
-        return 0
-    return 1
-
-def deutschJozsa() :
+def deutschJozsa(oracle_type, input_qubits) :
     print("Running: deutschJozsa")
     
     # Compute precision in decimal places
     precision = 4
     
     # Input qubits
-    n = 2
+    n = input_qubits
     
     # Possible combinations
     N = np.power(2, n)
@@ -89,7 +90,7 @@ def deutschJozsa() :
     # Phase Inversion
     for x in range(N):
         # (-1)**f(x)|x>
-        qstate[x] = qstate[x] * (-1)**f(x, N)
+        qstate[x] = qstate[x] * (-1)**f(x, N, oracle_type)
     qstate = qstate.round(precision)
     print("psi{0} = {1}".format(qs, qstate))
     qs+=1

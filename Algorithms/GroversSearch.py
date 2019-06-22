@@ -13,14 +13,14 @@ def f(x) :
         return 1
     return 0
 
-def groversSearch() :
+def groversSearch(oracle_type, input_qubits) :
     print("Running: groversSearch")
     
     # Compute precision in decimal places
     precision = 4
     
     # Input qubits
-    n = 3
+    n = input_qubits
     
     # Possible combinations
     N = np.power(2, n)
