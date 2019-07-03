@@ -17,7 +17,7 @@ def deutschJozsaQiskit(oracle_type, input_qubits) :
 
     # psi0: Init input qubits |001>
     #==============================
-    print("psi0: Setting up input qubits")
+    print("psi0: Setting up " + str(input_qubits) + " input qubits")
 
     # Num input qubits
     n = input_qubits
@@ -47,9 +47,10 @@ def deutschJozsaQiskit(oracle_type, input_qubits) :
     # This creates an initial state of |001>
     qcircuit.x(qregs[output_qubit])
 
+    qcircuit.barrier()
+
     # psi1: Place all qubits in superposition
     #========================================
-    qcircuit.barrier()
     print("psi1: Apply hadamard gates")
 
     # Apply hadamard to input and output qubits
@@ -58,6 +59,7 @@ def deutschJozsaQiskit(oracle_type, input_qubits) :
         if i != oracle_control_qubit :
             qcircuit.h(qregs[i])
 
+    qcircuit.barrier()
 
     # psi2: Apply the oracle function to the superposition of input qubits
     #=====================================================================
@@ -71,18 +73,19 @@ def deutschJozsaQiskit(oracle_type, input_qubits) :
             # Setup oracle function to always return 1
             # Constant 1 oracle function
             qcircuit.x(qregs[oracle_control_qubit])
-        qcircuit.barrier()
-        qcircuit.cx(qregs[oracle_control_qubit], qregs[output_qubit])
     else: # oracle == BALANCED:
         print("Running oracle function: Balanced 1,-1,-1, 1")
         for i in range(n):
-            qcircuit.barrier()
             qcircuit.cx(qregs[i], qregs[oracle_control_qubit])
+
+    # CNOT the output qubit based on the oracle output qubit
+    # i.e. this is the CNOT of the oracle function into the output qubit
+    qcircuit.cx(qregs[oracle_control_qubit], qregs[output_qubit])
+    qcircuit.barrier()
 
 
     # psi3: Prepare for measurement
     #==============================
-    qcircuit.barrier()
     print("psi3: Apply hadamard gates")
 
     # Apply hadamard to in qubits
@@ -91,9 +94,10 @@ def deutschJozsaQiskit(oracle_type, input_qubits) :
         if i != oracle_control_qubit :
             qcircuit.h(qregs[i])
 
+    qcircuit.barrier()
+
     # Final measurement
     #==================
-    qcircuit.barrier()
     print("Final measurement")
 
     for i in range(n):
