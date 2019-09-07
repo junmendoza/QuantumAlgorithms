@@ -4,14 +4,22 @@
 from qiskit import IBMQ
 
 def setupQiskit(token) :
-    mytoken = token
+    token_present = len(token) > 0;
     qiskit_url = 'https://api.quantum-computing.ibm.com/api/Hubs/ibm-q/Groups/open/Projects/main'
     
-    # If you want to store the account to disk
-    IBMQ.save_account(mytoken, qiskit_url)
+    # Need to migrate from v1 to v2
+    # May have to just deprecate this altogether
+    migrate_v1_to_v2 = False
+    if migrate_v1_to_v2 :
+        IBMQ.update_account()
     
-    # Alternatively, if you want to store only for the current session
-    #IBMQ.enable_account(mytoken)
-    
-    # Once account is stored, you can load them for every session using
-    IBMQ.load_accounts()
+    store_acct_to_disk = False
+    if token_present :
+        if store_acct_to_disk :
+            # Store token to disk
+            print("Storing token to disk")
+            IBMQ.save_account(token, qiskit_url, overwrite=True)
+        else :
+            # Use token only for the current session
+            print("Using token for current session only")
+            IBMQ.enable_account(token)

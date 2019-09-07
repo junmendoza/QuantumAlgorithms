@@ -14,7 +14,7 @@ def main():
     parser.add_argument(
         '--token',
         dest='token',
-        default='token not set',
+        default='',
         help='Specify token from IBM account'
         )
     parser.add_argument(
@@ -24,7 +24,7 @@ def main():
         choices=['all', 'deutsch', 'dj', 'grovers', 'dj-qiskit', 'grovers-qiskit'],
         help='Specify algorithm to run'
         )
-    
+
     # Deutch Jozsa args
     parser.add_argument(
         '--dj-oracle-type',
@@ -40,7 +40,7 @@ def main():
         type=int,
         help='Specify dj number of input qubits'
         )
-    
+
     # Grovers Search args
     parser.add_argument(
         '--grovers-oracle-type',

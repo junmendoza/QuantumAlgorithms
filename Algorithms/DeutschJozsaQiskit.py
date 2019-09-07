@@ -6,7 +6,7 @@
 # Qiskit core packages
 from qiskit import BasicAer, IBMQ
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
-from qiskit import execute, compile
+from qiskit import execute
 from qiskit.tools.monitor import job_monitor
 
 # Visualisation tools
